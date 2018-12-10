@@ -4,4 +4,5 @@ export class FlightTicket {
     flightSegments: FlightSegment[];
     price: String;
     currency: String;
+    deepLink: String;
 }

@@ -5,5 +5,10 @@
         <app-flight-ticket-summary-segment [flightSegment]="flightSegment"></app-flight-ticket-summary-segment>
       </div>
   </div>
-  <app-flight-ticket-summary-deal class="c-flights_ticket-summary-deal" [price]="flightTicket.price" [currency]="flightTicket.currency"></app-flight-ticket-summary-deal>
+  <app-flight-ticket-summary-deal 
+  class="c-flights_ticket-summary-deal" 
+  [price]="flightTicket.price" 
+  [currency]="flightTicket.currency"
+  [deepLink]="flightTicket.deepLink">
+</app-flight-ticket-summary-deal>
 </div>

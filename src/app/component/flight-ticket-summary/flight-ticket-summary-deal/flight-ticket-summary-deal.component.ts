@@ -9,6 +9,7 @@ export class FlightTicketSummaryDealComponent implements OnInit {
 
   @Input() price: String;
   @Input() currency: String;
+  @Input() deepLink: String;
 
   constructor() { }
 

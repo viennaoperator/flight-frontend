@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FlightSegment } from '../../model/flight.segment';
+import { FlightSegment } from '../../../model/flight.segment';
 
 @Component({
   selector: 'app-flight-ticket-summary-segment',

@@ -1,7 +1,10 @@
 <div class="c-flights_ticket">
   <div class="c-flights_ticket-container">
       <div class="c-flights_ticket-content" theme="secondary">
-        <app-flight-ticket-summary></app-flight-ticket-summary>
+        <app-flight-ticket-summary 
+        *ngFor="let flightTicket of flightTickets" 
+        [flightTicket]="flightTicket">
+      </app-flight-ticket-summary>
       </div>
   </div>
 </div>

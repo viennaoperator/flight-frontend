@@ -1,22 +1,28 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FlightSegment } from '../model/flight.segment';
-import { FlightTicket } from '../model/flight.ticket';
+import { FlightTicket } from '../../model/flight.ticket';
+import { FlightSegment } from '../../model/flight.segment';
 
 @Component({
-  selector: 'app-flight-ticket-summary',
-  templateUrl: './flight-ticket-summary.component.html',
-  styleUrls: ['./flight-ticket-summary.component.css']
+  selector: 'app-flight-tickets',
+  templateUrl: './flight-tickets.component.html',
+  styleUrls: ['./flight-tickets.component.css']
 })
-export class FlightTicketSummaryComponent implements OnInit {
+export class FlightTicketsComponent implements OnInit {
 
-  @Input() flightTicket: FlightTicket;
+  @Input() flightTickets: FlightTicket[];
 
   constructor() { }
 
   ngOnInit() {
-    this.flightTicket = new FlightTicket();
-    this.flightTicket.currency = 'HUF';
-    this.flightTicket.price = '220.437';
+    this.setupTestData();
+  }
+
+  setupTestData() {
+    this.flightTickets = new Array();
+    const flightTicket = new FlightTicket();
+    flightTicket.currency = 'HUF';
+    flightTicket.price = '220.437';
+    flightTicket.deepLink = 'http://www.momondo.com';
     const flightSegments = new Array();
     const flightSegment1 = new FlightSegment();
     flightSegment1.carriers = ['easyJet'];
@@ -36,7 +42,8 @@ export class FlightTicketSummaryComponent implements OnInit {
     flightSegment2.originPlace = 'Copenhagen';
     flightSegment2.originTime = '18:45';
     flightSegments.push(flightSegment2);
-    this.flightTicket.flightSegments = flightSegments;
+    flightTicket.flightSegments = flightSegments;
+    this.flightTickets.push(flightTicket);
   }
 
 }
