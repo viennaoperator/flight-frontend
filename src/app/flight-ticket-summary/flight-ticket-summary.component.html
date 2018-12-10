@@ -1,0 +1,9 @@
+<div class="c-flights_ticket-summary">
+  <div class="c-flights_ticket-summary-content">
+      <app-flight-ticket-summary-header></app-flight-ticket-summary-header>
+      <div class="c-flights_ticket-summary-segments" *ngFor="let flightSegment of flightTicket.flightSegments">
+        <app-flight-ticket-summary-segment [flightSegment]="flightSegment"></app-flight-ticket-summary-segment>
+      </div>
+  </div>
+  <app-flight-ticket-summary-deal class="c-flights_ticket-summary-deal" [price]="flightTicket.price" [currency]="flightTicket.currency"></app-flight-ticket-summary-deal>
+</div>
