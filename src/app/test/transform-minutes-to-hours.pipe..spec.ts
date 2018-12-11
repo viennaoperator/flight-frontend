@@ -1,6 +1,6 @@
-import { TransformMinutesToHours } from './transform-minutes-to-hours';
+import { TransformMinutesToHours } from '../pipe/transform-minutes-to-hours.pipe';
 
-describe('TransformMinutesToHours', () => {
+describe('TransformMinutesToHoursPipe', () => {
     let mainComponent: TransformMinutesToHours;
     beforeEach(() => { mainComponent = new TransformMinutesToHours(); });
 

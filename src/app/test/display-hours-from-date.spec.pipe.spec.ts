@@ -1,6 +1,6 @@
-import { DisplayHoursFromDate } from './display-hours-from-date';
+import { DisplayHoursFromDate } from '../pipe/display-hours-from-date.pipe';
 
-describe('DisplayHoursFromDate', () => {
+describe('DisplayHoursFromDatePipe', () => {
     let mainComponent: DisplayHoursFromDate;
     beforeEach(() => { mainComponent = new DisplayHoursFromDate(); });
 

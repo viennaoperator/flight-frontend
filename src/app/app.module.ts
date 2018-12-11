@@ -12,8 +12,9 @@ import { FlightTicketSummaryDealComponent } from './component/flight-ticket-summ
 import { FlightTicketSummaryHeaderComponent } from './component/flight-ticket-summary/flight-ticket-summary-header/flight-ticket-summary-header.component';
 import { FlightTicketSummarySegmentComponent } from './component/flight-ticket-summary/flight-ticket-summary-segment/flight-ticket-summary-segment.component';
 import { FlightSearchService} from './service/flight-search/flight-search.service';
-import { TransformMinutesToHours } from './pipe/transform-minutes-to-hours';
-import { DisplayHoursFromDate } from './pipe/display-hours-from-date';
+import { TransformMinutesToHours } from './pipe/transform-minutes-to-hours.pipe';
+import { DisplayHoursFromDate } from './pipe/display-hours-from-date.pipe';
+import { AirportService } from './service/airport/airport.service.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DisplayHoursFromDate } from './pipe/display-hours-from-date';
     HttpClientModule
   ],
   providers: [
-    FlightSearchService
+    FlightSearchService,
+    AirportService
   ],
   bootstrap: [AppComponent]
 })

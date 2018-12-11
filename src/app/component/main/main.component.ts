@@ -5,6 +5,9 @@ import { Guid } from 'guid-typescript';
 import { FlightTicket } from '../../model/flight.ticket';
 import { FlightSegment } from '../../model/flight.segment';
 import { Leg } from '../../service/flight-search/response-model/leg';
+import { AirportService } from 'src/app/service/airport/airport.service.service';
+import { CarrierService } from 'src/app/service/carrier/carrier.service';
+import { FlightSegmentService } from 'src/app/service/flight-segment/flight-segment.service';
 
 @Component({
   selector: 'app-main',
@@ -17,7 +20,8 @@ export class MainComponent implements OnInit {
   flightTickets: FlightTicket[];
   currency: string;
 
-  constructor(private flightSearchService: FlightSearchService) { }
+  constructor(private flightSearchService: FlightSearchService,
+              private flightSegmentService: FlightSegmentService) { }
 
   ngOnInit() {
     this.currency = 'HUF';
@@ -36,15 +40,12 @@ export class MainComponent implements OnInit {
         const flightTicket = new FlightTicket();
         flightTicket.flightSegments = new Array();
         flight.SegmentIndexes.forEach(segmentIndex => {
-          const flightSegment = new FlightSegment();
           const segment = flightSearchServiceResponse.Segments[segmentIndex];
-          flightSegment.routeDuration = segment.Duration;
           const firstLegOfSegment = segment.LegIndexes[0];
           const departureLeg = flightSearchServiceResponse.Legs[firstLegOfSegment];
           const lastLegOfSegment = segment.LegIndexes[segment.LegIndexes.length - 1]; // segmentIndex
           const arrivalLeg = flightSearchServiceResponse.Legs[lastLegOfSegment];
-          this.saveDepartureInfos(flightSegment, departureLeg);
-          this.saveArrivalInfos(flightSegment, arrivalLeg);
+          const flightSegment = this.flightSegmentService.createFlightSegment(segment.Duration, departureLeg, arrivalLeg);
           flightTicket.flightSegments.push(flightSegment);
         });
       flightTickets.push(flightTicket);
@@ -56,40 +57,5 @@ export class MainComponent implements OnInit {
       flight.price = Number(x.Price).toFixed(3);
     });
     this.flightTickets = flightTickets;
-  }
-
-  saveDepartureInfos(flightSegment: FlightSegment, departureLeg: Leg) {
-    flightSegment.originIata = this.getAirportCode(departureLeg.Origin);
-    flightSegment.originTime = departureLeg.Departure;
-    flightSegment.originPlace = this.getAirportPlace(departureLeg.Origin);
-    flightSegment.carriers = this.addCarrier(departureLeg.AirlineName, flightSegment.carriers);
-  }
-
-  saveArrivalInfos(flightSegment: FlightSegment, arrivalLeg: Leg) {
-    flightSegment.destinationIata = this.getAirportCode(arrivalLeg.Destination);
-    flightSegment.destinationTime = arrivalLeg.Arrival;
-    flightSegment.destinationPlace = this.getAirportPlace(arrivalLeg.Destination);
-    flightSegment.carriers = this.addCarrier(arrivalLeg.AirlineName, flightSegment.carriers);
-  }
-
-  addCarrier(carrier: string, carriers: string[]): string[] {
-    if (!carriers) {
-      carriers = new Array();
-    }
-    if (!carriers.find(x => x === carrier)) {
-      carriers.push(carrier);
-    }
-    return carriers;
-  }
-
-  getAirportCode(airport: string) {
-    const startOfAirportCode = airport.indexOf('(') + 1;
-    const endOfAirportCode = airport.indexOf(')');
-    return airport.substring(startOfAirportCode, endOfAirportCode);
-  }
-
-  getAirportPlace(airport: string) {
-    const endOfAirportCode = airport.indexOf(',');
-    return airport.substring(0, endOfAirportCode);
   }
 }
