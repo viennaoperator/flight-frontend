@@ -2,7 +2,7 @@ import { FlightSegment } from './flight.segment';
 
 export class FlightTicket {
     flightSegments: FlightSegment[];
-    price: Number;
+    price: string;
     currency: string;
     deepLink: string;
 }

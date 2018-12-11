@@ -15,10 +15,12 @@ export class MainComponent implements OnInit {
 
   guid: Guid;
   flightTickets: FlightTicket[];
+  currency: string;
 
   constructor(private flightSearchService: FlightSearchService) { }
 
   ngOnInit() {
+    this.currency = 'HUF';
     this.guid = Guid.create();
     this.getFlightSearchResult();
   }
@@ -50,25 +52,24 @@ export class MainComponent implements OnInit {
     flightSearchServiceResponse.Offers.forEach(x => {
       const flight = flightTickets[x.FlightIndex];
       flight.deepLink = x.Deeplink;
-      flight.currency = x.Currency;
-      flight.price = x.Price;
+      flight.currency = this.currency;
+      flight.price = Number(x.Price).toFixed(3);
     });
     this.flightTickets = flightTickets;
-    console.log(this.flightTickets);
   }
 
   saveDepartureInfos(flightSegment: FlightSegment, departureLeg: Leg) {
     flightSegment.originIata = this.getAirportCode(departureLeg.Origin);
-    flightSegment.originTime = departureLeg.Departure.toString();
+    flightSegment.originTime = departureLeg.Departure;
     flightSegment.originPlace = this.getAirportPlace(departureLeg.Origin);
-    this.addCarrier(departureLeg.AirlineName, flightSegment.carriers);
+    flightSegment.carriers = this.addCarrier(departureLeg.AirlineName, flightSegment.carriers);
   }
 
   saveArrivalInfos(flightSegment: FlightSegment, arrivalLeg: Leg) {
     flightSegment.destinationIata = this.getAirportCode(arrivalLeg.Destination);
-    flightSegment.destinationTime = arrivalLeg.Arrival.toString();
+    flightSegment.destinationTime = arrivalLeg.Arrival;
     flightSegment.destinationPlace = this.getAirportPlace(arrivalLeg.Destination);
-    this.addCarrier(arrivalLeg.AirlineName, flightSegment.carriers);
+    flightSegment.carriers = this.addCarrier(arrivalLeg.AirlineName, flightSegment.carriers);
   }
 
   addCarrier(carrier: string, carriers: string[]): string[] {

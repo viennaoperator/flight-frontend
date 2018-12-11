@@ -1,10 +1,10 @@
 export class FlightSegment {
     carriers: string[];
     originIata: string;
-    originTime: string;
+    originTime: Date;
     originPlace: string;
     destinationIata: string;
-    destinationTime: string;
+    destinationTime: Date;
     destinationPlace: string;
     routeDuration: number;
 }
