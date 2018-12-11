@@ -30,7 +30,8 @@ export class MainComponent implements OnInit {
         if(!searchResult.Done) {
           this.retry();
         }
-        this.flightTickets = this.flightSearchResponseTransformService.transform(searchResult)
+        this.flightSearchResponseTransformService.addResult(searchResult);
+        this.flightTickets = this.flightSearchResponseTransformService.transformResponseIntoFlightTickets();
       }
      );
   }

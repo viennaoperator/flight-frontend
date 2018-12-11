@@ -9,11 +9,18 @@ export class DisplayHoursFromDate implements PipeTransform {
       return '';
     }
      const date = new Date(value);
-     const hours = date.getHours();
-     const minutes = date.getMinutes();
-     if (hours === 0) {
-       return '00:' + minutes;
-     }
+     const hours = this.fillOutNumbers(date.getHours());
+     const minutes = this.fillOutNumbers(date.getMinutes());
      return hours + ':' + minutes;
+  }
+
+  fillOutNumbers(number: number): string {
+    if(number === 0) {
+      return '00';
+    }
+    if(number < 10) {
+      return '0' + number;
+    }
+    return String(number);
   }
 }

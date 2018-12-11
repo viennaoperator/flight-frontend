@@ -10,7 +10,8 @@ import { CarrierService } from '../carrier/carrier.service';
 export class FlightSegmentService {
 
   constructor(private airportService: AirportService,
-              private carrierService: CarrierService) { }
+              private carrierService: CarrierService) {
+              }
 
   createFlightSegment(segmentDuration:number, departureLeg: Leg, arrivalLeg: Leg): FlightSegment{
     const flightSegment = new FlightSegment();

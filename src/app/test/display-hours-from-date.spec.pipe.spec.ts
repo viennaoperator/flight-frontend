@@ -6,7 +6,7 @@ describe('DisplayHoursFromDatePipe', () => {
 
     it('#transform should return valid hours and minutes format', () => {
       const date = new Date('1995-12-17T03:24:00');
-      expect(mainComponent.transform(date)).toBe('3:24');
+      expect(mainComponent.transform(date)).toBe('03:24');
     });
 
     it('#transform should return valid hours and minutes format', () => {
@@ -21,5 +21,10 @@ describe('DisplayHoursFromDatePipe', () => {
 
     it('#transform should return valid hours and minutes format', () => {
         expect(mainComponent.transform(null)).toBe('');
+    });
+
+    it('#transform should return valid hours and minutes format', () => {
+        const date = new Date('1995-12-17T06:00:00');
+        expect(mainComponent.transform(date)).toBe('06:00');
     });
 });
