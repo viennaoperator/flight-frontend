@@ -1,6 +1,6 @@
 export class Segment {
-    Duration: Number;
-    Key: String;
-    LegIndexes: Number;
-    Stops: Number;
+    Duration: number;
+    Key: string;
+    LegIndexes: number[];
+    Stops: number;
 }

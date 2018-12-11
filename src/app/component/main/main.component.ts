@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FlightSearchServiceService } from '../../service/flight-search/flight-search-service.service';
+import { FlightSearchService } from '../../service/flight-search/flight-search.service';
 import { FlightSearchServiceResponse } from '../../service/flight-search/response-model/flight-search-service.response';
+import { Guid } from 'guid-typescript';
+import { FlightTicket } from '../../model/flight.ticket';
+import { FlightSegment } from '../../model/flight.segment';
+import { Leg } from '../../service/flight-search/response-model/leg';
 
 @Component({
   selector: 'app-main',
@@ -9,18 +13,82 @@ import { FlightSearchServiceResponse } from '../../service/flight-search/respons
 })
 export class MainComponent implements OnInit {
 
-  guid: String;
-  flightSearchResult: FlightSearchServiceResponse[];
+  guid: Guid;
+  flightTickets: FlightTicket[];
 
-  constructor(private flightSearchService: FlightSearchServiceService) { }
+  constructor(private flightSearchService: FlightSearchService) { }
 
   ngOnInit() {
-    this.guid = '200190de-8dc5-4013-9b1b-7feaf71a742a';
+    this.guid = Guid.create();
+    this.getFlightSearchResult();
   }
 
   getFlightSearchResult() {
     this.flightSearchService.getSearchResult(this.guid)
-    .subscribe(flightSearchResult => this.flightSearchResult = flightSearchResult);
-    // TODO: transform into view objects
+    .subscribe(x => this.transform(x));
+  }
+
+  transform(flightSearchServiceResponse: FlightSearchServiceResponse) {
+    const flightTickets: FlightTicket[] = new Array();
+      flightSearchServiceResponse.Flights.forEach(flight => {
+        const flightTicket = new FlightTicket();
+        flightTicket.flightSegments = new Array();
+        flight.SegmentIndexes.forEach(segmentIndex => {
+          const flightSegment = new FlightSegment();
+          const segment = flightSearchServiceResponse.Segments[segmentIndex];
+          flightSegment.routeDuration = segment.Duration;
+          const firstLegOfSegment = segment.LegIndexes[0];
+          const departureLeg = flightSearchServiceResponse.Legs[firstLegOfSegment];
+          const lastLegOfSegment = segment.LegIndexes[segment.LegIndexes.length - 1]; // segmentIndex
+          const arrivalLeg = flightSearchServiceResponse.Legs[lastLegOfSegment];
+          this.saveDepartureInfos(flightSegment, departureLeg);
+          this.saveArrivalInfos(flightSegment, arrivalLeg);
+          flightTicket.flightSegments.push(flightSegment);
+        });
+      flightTickets.push(flightTicket);
+    });
+    flightSearchServiceResponse.Offers.forEach(x => {
+      const flight = flightTickets[x.FlightIndex];
+      flight.deepLink = x.Deeplink;
+      flight.currency = x.Currency;
+      flight.price = x.Price;
+    });
+    this.flightTickets = flightTickets;
+    console.log(this.flightTickets);
+  }
+
+  saveDepartureInfos(flightSegment: FlightSegment, departureLeg: Leg) {
+    flightSegment.originIata = this.getAirportCode(departureLeg.Origin);
+    flightSegment.originTime = departureLeg.Departure.toString();
+    flightSegment.originPlace = this.getAirportPlace(departureLeg.Origin);
+    this.addCarrier(departureLeg.AirlineName, flightSegment.carriers);
+  }
+
+  saveArrivalInfos(flightSegment: FlightSegment, arrivalLeg: Leg) {
+    flightSegment.destinationIata = this.getAirportCode(arrivalLeg.Destination);
+    flightSegment.destinationTime = arrivalLeg.Arrival.toString();
+    flightSegment.destinationPlace = this.getAirportPlace(arrivalLeg.Destination);
+    this.addCarrier(arrivalLeg.AirlineName, flightSegment.carriers);
+  }
+
+  addCarrier(carrier: string, carriers: string[]): string[] {
+    if (!carriers) {
+      carriers = new Array();
+    }
+    if (!carriers.find(x => x === carrier)) {
+      carriers.push(carrier);
+    }
+    return carriers;
+  }
+
+  getAirportCode(airport: string) {
+    const startOfAirportCode = airport.indexOf('(') + 1;
+    const endOfAirportCode = airport.indexOf(')');
+    return airport.substring(startOfAirportCode, endOfAirportCode);
+  }
+
+  getAirportPlace(airport: string) {
+    const endOfAirportCode = airport.indexOf(',');
+    return airport.substring(0, endOfAirportCode);
   }
 }

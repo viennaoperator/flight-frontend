@@ -14,14 +14,14 @@ export class FlightTicketsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.setupTestData();
+     // this.setupTestData();
   }
 
   setupTestData() {
     this.flightTickets = new Array();
     const flightTicket = new FlightTicket();
     flightTicket.currency = 'HUF';
-    flightTicket.price = '220.437';
+    flightTicket.price = 220.437;
     flightTicket.deepLink = 'http://www.momondo.com';
     const flightSegments = new Array();
     const flightSegment1 = new FlightSegment();

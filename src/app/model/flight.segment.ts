@@ -1,10 +1,10 @@
 export class FlightSegment {
-    carriers: String[];
-    originIata: String;
-    originTime: String;
-    originPlace: String;
-    destinationIata: String;
-    destinationTime: String;
-    destinationPlace: String;
-    routeDuration: String;
+    carriers: string[];
+    originIata: string;
+    originTime: string;
+    originPlace: string;
+    destinationIata: string;
+    destinationTime: string;
+    destinationPlace: string;
+    routeDuration: number;
 }

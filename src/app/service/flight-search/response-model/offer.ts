@@ -1,8 +1,8 @@
 export class Offer {
-    Currency: String;
-    Deeplink: String;
-    FlightIndex: Number;
-    Score: Number;
-    Ticketclass: String;
+    Currency: string;
+    Deeplink: string;
+    FlightIndex: number;
+    Score: number;
+    Ticketclass: string;
     Price: Number;
 }

@@ -19,10 +19,10 @@
 @font-face {
     src:
         local('☺'),
-        url('./lato-bold.woff2') format('woff2'),
-        url('./lato-bold.woff') format('woff');
+        url('../font/lato-bold.woff2') format('woff2'),
+        url('../font/lato-bold.woff') format('woff');
     font-family: ffprimary;
-    font-style: normal;
+    font-style: normal; 
     font-weight: 700;
 }
 

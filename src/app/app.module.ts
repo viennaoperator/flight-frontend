@@ -11,6 +11,7 @@ import { FlightTicketSummaryComponent } from './component/flight-ticket-summary/
 import { FlightTicketSummaryDealComponent } from './component/flight-ticket-summary/flight-ticket-summary-deal/flight-ticket-summary-deal.component';
 import { FlightTicketSummaryHeaderComponent } from './component/flight-ticket-summary/flight-ticket-summary-header/flight-ticket-summary-header.component';
 import { FlightTicketSummarySegmentComponent } from './component/flight-ticket-summary/flight-ticket-summary-segment/flight-ticket-summary-segment.component';
+import { FlightSearchService} from './service/flight-search/flight-search.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { FlightTicketSummarySegmentComponent } from './component/flight-ticket-s
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    FlightSearchService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

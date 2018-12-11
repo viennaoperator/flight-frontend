@@ -1,6 +1,6 @@
 export class Flight {
-    Key: String;
-    MaxStops: Number;
-    SegmentIndexes: Number;
-    TicketClass: String;
+    Key: string;
+    MaxStops: number;
+    SegmentIndexes: number[];
+    TicketClass: string;
 }
